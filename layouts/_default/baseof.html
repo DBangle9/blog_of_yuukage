@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>{{ if .IsHome }}{{ site.Title }}{{ else }}{{ .Title }} · Yuukage{{ end }}</title>
+  <meta name="description" content="{{ .Description | default site.Params.description }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+  <meta property="og:title" content="{{ .Title }}"><meta property="og:description" content="{{ .Description | default site.Params.description }}"><meta property="og:url" content="{{ .Permalink }}"><meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="alternate" type="application/rss+xml" title="Yuukage 博客" href="/posts/index.xml">
+  <link rel="stylesheet" href="/css/site.css">
+  <script defer src="/js/site.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#main">跳到正文</a>
+<header class="site-header wrap">
+  <a class="brand" href="/" aria-label="夕影的blog 首页"><span class="brand-mark">y<span>.</span></span><span>夕影的blog<small>YUUKAGE.COM</small></span></a>
+  <nav aria-label="主导航">
+  {{ $current := .Section }}
+  <a href="/" {{ if .IsHome }}aria-current="page"{{ end }}>首页</a><a href="/posts/" {{ if eq $current "posts" }}aria-current="page"{{ end }}>文章</a><a href="/projects/" {{ if eq $current "projects" }}aria-current="page"{{ end }}>项目</a><a href="/about/" {{ if eq $current "about" }}aria-current="page"{{ end }}>关于</a>
+  </nav>
+  <div class="header-tools"><a class="icon-button" href="/search/" aria-label="搜索文章">⌕</a><button class="icon-button" id="theme-toggle" aria-label="切换深色模式" aria-pressed="false" hidden>◐</button></div>
+</header>
+<main id="main" class="wrap">{{ block "main" . }}{{ end }}</main>
+<footer class="site-footer wrap"><div><a class="footer-brand" href="/">yuukage<span>.</span></a><p>记录、实践，然后分享。</p></div><div class="footer-right"><div><a href="/posts/index.xml">RSS 订阅 ↗</a><a href="/creative/">创作归档 ↗</a>{{ with site.Params.github }}<a href="{{ . }}" rel="me">GitHub ↗</a>{{ end }}</div><p>© {{ now.Year }} Yuukage · Built with Hugo</p></div></footer>
+</body></html>

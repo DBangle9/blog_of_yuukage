@@ -1,0 +1,1 @@
+{{ define "main" }}<header class="page-heading"><p class="eyebrow">EXPLORE BY TOPIC</p><h1>{{ if eq .Data.Plural "tags" }}标签{{ else }}分类{{ end }}</h1><p>按主题查阅文章与创作记录。</p></header><div class="term-grid">{{ range .Data.Terms.Alphabetical }}<a class="term-card" href="{{ .Page.RelPermalink }}"><span>{{ .Page.Title }}</span><span>{{ .Count }} 篇 ↗</span></a>{{ end }}</div>{{ end }}

@@ -1,0 +1,25 @@
+baseURL = 'https://yuukage.com/'
+languageCode = 'zh-cn'
+defaultContentLanguage = 'zh'
+title = '夕影的blog'
+enableRobotsTXT = true
+hasCJKLanguage = true
+summaryLength = 100
+[params]
+author = 'Yuukage / 夕影'
+description = '夕影的个人博客，记录折腾硬件与软件的心得、经验和日常思考。'
+github = 'https://github.com/DBangle9'
+[permalinks]
+posts = '/posts/:slug/'
+[outputs]
+home = ['HTML', 'RSS', 'JSON']
+[markup.goldmark.renderer]
+unsafe = false
+[markup.highlight]
+noClasses = false
+[markup.tableOfContents]
+startLevel = 2
+endLevel = 3
+[taxonomies]
+tag = 'tags'
+category = 'categories'

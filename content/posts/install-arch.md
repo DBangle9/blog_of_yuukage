@@ -124,7 +124,7 @@ mkdir -p /mnt/boot/efi
 mount /dev/你的磁盘名p1 /mnt/boot/efi
 ```
 
-至此，おめでとう~ 硬盘分区全部完成，接下来该往硬盘分区里安装Linux了
+至此，おめでとう~ 硬盘分区已经完成，接下来就可以往硬盘分区里安装Linux了
 
 ## 安装基础系统
 
@@ -295,7 +295,7 @@ umount -R /mnt
 reboot
 ```
 
-如果 umount 提示忙，先 swapoff -a 再试。重启前记得拔掉安装U盘，你现在BIOS设置的第一启动项仍然是U盘。
+如果umount提示忙，先 swapoff -a 再试。重启前记得拔掉安装U盘，因为你现在BIOS设置的第一启动项仍然是U盘。
 
 重启后用root或刚建的sudo用户登录，连接 WiFi：
 
@@ -311,14 +311,15 @@ nmcli device wifi connect "你的WiFi名" password "你的密码"
 
 介绍一下我比较推荐的桌面环境
 
-KDE Plasma：功能丰富、高度可定制，外观华丽，可以自定义各种东西，我最喜欢的桌面，但是有点吃资源。
-GNOME：设计简洁，注重效率和触控体验，适合喜欢开箱即用的用户，也是Linux原神Ubuntu的默认桌面，相比KDE不那么吃资源。
-XFCE：轻量级，资源占用少，适合配置较老的电脑，我的服务器使用的是XFCE桌面，最不吃资源，4GB内存也能流畅运行。
+**KDE Plasma**：功能丰富、高度可定制，外观华丽，可以自定义各种东西，我最喜欢的桌面，但是有点吃资源。
+
+**GNOME**：设计简洁，注重效率和触控体验，适合喜欢开箱即用的用户，也是Linux原神Ubuntu的默认桌面，相比KDE不那么吃资源。
+
+**XFCE**：轻量级，资源占用少，适合配置较老的电脑，我的服务器使用的是XFCE桌面，最不吃资源，4GB内存也能流畅运行。
 
 **安装前的关键准备**
 
-
-不过我们先安装一个AUR助手，这个东西非常有用，先配置archlinuxcn
+先安装一个AUR助手，这个东西非常有用，配置一下archlinuxcn：
 
 ```bash
 nano /etc/pacman.conf

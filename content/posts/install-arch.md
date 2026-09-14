@@ -359,7 +359,7 @@ lspci -k | grep -A 2 -E "(VGA|3D)"。
 ```
 
 
-如果是NVIDIA显卡，请根据卡型安装闭源驱动。较新卡（40系，50系等）推荐等装完桌面之后用比较模糊的屏幕去浏览器搜NVIDIA drivers，然后下载对应的驱动；较老卡（GTX或者更古早的）装 nvidia-580xx-dkms（需AUR）；再老的卡（Kepler 及以下）考虑 nvidia-470xx-dkms。
+如果是NVIDIA显卡，请根据卡型安装闭源驱动。较新卡（40系，50系等）推荐等装完桌面之后用比较模糊的屏幕去浏览器搜NVIDIA drivers，然后下载对应的驱动，用sudo运行，按照提示安装即可，随后重启即可使用驱动；较老卡（GTX或者更古早的）执行 yay -S nvidia-580xx-dkms ；再老的卡（Kepler 及以下）考虑 nvidia-470xx-dkms。
 装完 NVIDIA 驱动后，编辑 /etc/default/grub，在 GRUB_CMDLINE_LINUX_DEFAULT 里添加 nvidia-drm.modeset=1，然后重新生成配置 sudo grub-mkconfig -o /boot/grub/grub.cfg。
 
 AMD / Intel 用户：通常使用开源驱动即可，无需额外手动安装。

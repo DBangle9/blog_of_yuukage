@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>{{ .Title }} · 夕影的blog</title>
+  <meta name="description" content="{{ .Description }}">
+  <link rel="canonical" href="{{ .Permalink }}">
+  <link rel="icon" href="/favicon.png" type="image/png">
+  <link rel="stylesheet" href="/css/legacy.css">
+</head>
+<body>
+  <main>
+    <section class="legacy-hero" aria-labelledby="legacy-title">
+      <h1 id="legacy-title">欢迎来到yuukage-blog旧站</h1>
+      <p>YUUKAGE.COM · THE OLD SITE</p>
+      <div class="legacy-blur" aria-hidden="true"></div>
+      <div class="legacy-shade" aria-hidden="true"></div>
+    </section>
+    <article class="legacy-body">
+      <div class="legacy-copy">
+        {{ .Content }}
+        <nav class="legacy-links" aria-label="旧站内容">
+          <a href="/creative/">阅读旧故事 <span>→</span></a>
+          <a href="/oc/">角色档案 <span>→</span></a>
+          <a href="/gallery/">浏览画廊 <span>→</span></a>
+        </nav>
+      </div>
+    </article>
+  </main>
+</body>
+</html>

@@ -13,16 +13,16 @@ tags: ["Linux", "软件"]
 
 如果你想要安装双系统，就需要先在Windows下准备安装空间
 
-在Windows左下角搜索栏搜索“创建并格式化硬盘分区”，或者右键Windows图标，选择“磁盘管理”，在里面找到你想安装arch的硬盘（推荐选择剩余空间多的），右键它，选择“压缩”，输入你想压缩的大小（单位mb，如果你想压缩大约100GB，就输入100000。接下来出现一片显示为黑色的区域就成功了。另外，如果你开启了bitlocker，建议关闭，你也不想安装一次系统就输一次解锁密钥吧ww
+在Windows左下角搜索栏搜索“创建并格式化硬盘分区”，或者右键Windows图标，选择“磁盘管理”，在里面找到你想安装arch的硬盘（推荐选择剩余空间多的），右键它，选择“压缩”，输入你想压缩的大小（单位mb，如果你想压缩大约100GB，就输入100000。接下来出现一片显示为黑色的区域就成功了。另外，如果你开启了bitlocker，建议关闭，你也不想安装一次系统就输一次解锁密钥吧ww。还有一个容易被忽略的：在 控制面板 → 电源选项 → 选择电源按钮的功能 里，取消勾选“启用快速启动”，否则 Windows 关机时其实是半休眠状态，Linux 访问 NTFS 分区可能出问题，双系统时间也更容易乱
 完成压缩后，我们下载archlinux镜像文件，推荐使用清华源。浏览器搜索tuna，进入清华源官网，在里面找到archlinux，进入，点击iso/文件夹，下载一个最新的，再在浏览器搜索Rufus，下载x86_64版本（如果你的电脑是其他架构，请选择对应架构）
-准备一个8GB以上的u盘，提前备份里面的文件，因为刷启动盘会格式化u盘。下载好所有东西以后打开Rufus，在选择镜像的一栏选择你刚刚下载的archlinux的ISO文件，设备选择你的u盘（千万不要选错了，如果你有很多u盘，请全部拔掉只留下你要刷的那一个，防止误格式化丢失数据）。点击开始，等待刷完
+准备一个8GB以上的u盘，提前备份里面的文件，因为刷启动盘会格式化u盘。下载好所有东西以后打开Rufus，在选择镜像的一栏选择你刚刚下载的archlinux的ISO文件，设备选择你的u盘（千万不要选错了，如果你有很多u盘，请全部拔掉只留下你要刷的那一个，防止误格式化丢失数据）。点击开始，如果 Rufus 弹窗问用 ISO 模式还是 DD 模式，选 DD 模式（Arch Wiki 推荐），等待刷完
 
 刷完后重启电脑，按对应的键进入BIOS（常见的有del，F2等，你可以搜索你的笔记本或者主板型号来确定），找到security选项，关闭secure boot，再找到启动项（一般写着start或者boot），把第一启动项改为你的u盘（一般写着uefi，usb等字）
-重启会进入一个黑色的写着grub的界面，选择第一个选项，安装arch
+重启会进入一个黑色的启动菜单（新版 Arch 镜像在 UEFI 下是 systemd-boot 的菜单，旧版或部分机器是 GRUB），选择第一个选项 Arch Linux install medium，进入安装环境
 
 ## 在macOS上安装双系统的准备（以macOS 12 monterey为例，仅限Intel芯片，m芯片可安装asahi Linux）
 
-在设置中找到新建宗卷，新建一个你认为大小合适的宗卷，类型选择exfat，与APFS的其他宗卷作区分。准备ISO镜像的步骤参照Windows，u盘刷写软件可以使用balenaetcher，当然如果你是Linux大佬，你也可以使用Mac终端的dd命令，因为这俩系统都是类UNIX，指令是互通的。
+打开“磁盘工具”，点左上角“显示”→“显示所有设备”，选中整块物理磁盘（不是下面的宗卷），点“分区”，再点“+”，选择“添加分区”（注意不是“添加宗卷”，APFS 宗卷共享同一个容器，分不出独立空间），大小选你认为合适的，格式选 ExFAT，与APFS的其他宗卷作区分。准备ISO镜像的步骤参照Windows，u盘刷写软件可以使用balenaetcher，当然如果你是Linux大佬，你也可以使用Mac终端的dd命令，因为这俩系统都是类UNIX，指令是互通的。
 刷写完毕后重启Mac，按住键盘上的option键，会进入启动选项，选择黄色的，写着uefi和USB device的选项，进入即可
 
 **特别提醒**：如果安装完Linux，grub无法找到macOS的启动项，你可以在开机时按住option键，找到macOS的启动选项并进入（一般是一个机械硬盘的图像，如果有efi boot就不要选，选择另一个）
@@ -36,22 +36,22 @@ tags: ["Linux", "软件"]
 iwctl
 ```
 
-这时候你的终端提示符会变成"【iwd】#"，输入
+这时候你的终端提示符会变成"[iwd]#"，输入
 
 ```sh
 device list
 ```
 
-查看你的网卡名称，一般是wlan0，接下来出现一片显示为黑色的区域就成功了
+查看你的网卡名称，一般是wlan0，接下来扫描并列出附近的WiFi（下面都以wlan0为例，换成你自己的网卡名）
 
 ```sh
 station wlan0 scan
-station get-networks
+station wlan0 get-networks
 ```
 最后找到你的WiFi
 
 ```sh
-station connect "你的WiFi（最好是英文名，因为终端里中文会变成方块）"
+station wlan0 connect "你的WiFi名"  # 最好是英文名，因为终端里中文会变成方块
 ```
 
 按提示输入密码即可，输入exit退出联网
@@ -66,7 +66,7 @@ lsblk
 ```
 
 根据磁盘大小找到那个你压缩过的硬盘（可能会显示/dev/sda，/dev/sdb（SATA硬盘），/dev/nvme0n1，/dev/nvme1n1（m2硬盘）等等，根据硬盘和分区大小，确定你压缩的那块盘）
-找到对应的硬盘后，cfdisk你的磁盘，比如是/dev/nvme0n1，选中整块盘，不要具体到nvme1n1p几
+找到对应的硬盘后，cfdisk你的磁盘，比如是/dev/nvme0n1，选中整块盘，不要具体到nvme0n1p几
 
 ```sh
 cfdisk /dev/nvme0n1
@@ -77,10 +77,13 @@ cfdisk /dev/nvme0n1
 **如果是macOS**：这一步会没有free space，但是可以看到你创建的exfat分区，将那个分区删除，它就会变为free space
 
 首先创建efi分区，你可以新建一个512MB的fat32分区，也可以和Windows共用。
+
+**注意**：如果选择和Windows共用EFI分区，就跳过下面新建EFI分区这一步，后面也**千万不要**对它执行 mkfs.fat，格式化会把Windows的引导一起删掉，直接挂载它就行。另外Windows自带的EFI分区常常只有100MB，空间比较紧张，新手更推荐自己新建一个512MB的。
+
 选择free space，选择new，输入大小512m，回车。选中你刚刚创建的512MB分区，选择type选项，将其改为EFI System
 
 建议创建swap分区，在内存紧张时，swap可以分担内存的压力。大小建议为8GB-16GB。
-选中剩下的free space，选择new，大小输入8g，type选择Linux swap可以分担内存的压力
+选中剩下的free space，选择new，大小输入8g，type选择Linux swap
 
 最后创建根分区。新手期只创建一个根分区就完全够了，之后你也可以尝试单独创建/home，把根目录和home目录放入不同分区。我们先演示单个根分区：
 选中剩余的free space，选择new，回车选择剩下的所有空间，类型选择Linux filesystem
@@ -96,32 +99,32 @@ cfdisk /dev/nvme0n1
 lsblk
 ```
 
-找到你刚刚创建的分区，具体到nvme1n1p几
+找到你刚刚创建的分区，具体到nvme0n1p几（下面用X、Y、Z代替，换成你自己的分区号）
 先格式化EFI分区：
 
 ```sh
-mkfs.fat -F32 /dev/nvme1n1pX（512MB的fat32分区）
+mkfs.fat -F 32 /dev/nvme0n1pX  # 512MB的EFI分区；和Windows共用EFI的话不要执行这一行！
 ```
 
 初始化Swap分区（若创建了）：依次执行 
 
 ```sh
-mkswap /dev/nvme1n1pY（你的swap分区，如果你按照本手册来安装，就是EFI的后一个分p）
-swapon /dev/nvme1n1pY
+mkswap /dev/nvme0n1pY  # 你的swap分区，如果你按照本手册来安装，就是EFI的后一个分p
+swapon /dev/nvme0n1pY
 ```
 
 格式化并挂载根分区：
 
 ```sh
-mkfs.ext4 /dev/nvme1n1pZ（你的根分区，如果你按照本手册来安装，就是swap的后一个分p）
-mount /dev/nvme1n1pZ /mnt
+mkfs.ext4 /dev/nvme0n1pZ  # 你的根分区，如果你按照本手册来安装，就是swap的后一个分p
+mount /dev/nvme0n1pZ /mnt
 ```
 
 挂载EFI分区：先创建目录再挂载：
 
 ```bash
 mkdir -p /mnt/boot/efi
-mount /dev/你的磁盘名p1 /mnt/boot/efi
+mount /dev/nvme0n1pX /mnt/boot/efi  # X是EFI分区，和上面mkfs.fat的是同一个
 ```
 
 至此，おめでとう~ 硬盘分区已经完成，接下来就可以往硬盘分区里安装Linux了
@@ -196,7 +199,7 @@ ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 hwclock --systohc --localtime
 ```
 
-可以看到我这里加了--localtime，这是因为Linux和Windows双系统时间冲突，这俩一个直接在主板上读时间一个往主板上存UTC然后手动+8小时，切换双系统会把Windows时间干错乱。
+可以看到我这里加了--localtime，这是因为Linux和Windows双系统时间冲突：Windows默认把主板时间当作本地时间（北京时间），Linux默认把主板时间当作UTC再+8小时显示，切换双系统时两边会互相把时间改乱，差整整8小时。加上--localtime就是让Linux也按本地时间来，和Windows保持一致。
 
 接下来进行本地化
 
@@ -285,7 +288,13 @@ grub-mkconfig -o /boot/grub/grub.cfg
 nano /etc/default/grub
 ```
 
-去掉 GRUB_DISABLE_OS_PROBER=false 的注释，再运行 grub-mkconfig -o /boot/grub/grub.cfg。
+找到 #GRUB_DISABLE_OS_PROBER=false 这一行，去掉前面的 #，保存后再运行一次：
+
+```bash
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
+输出里出现 Found Windows Boot Manager 就说明检测到了。如果Windows装在另一块硬盘、用的是另一个EFI分区，在chroot里可能检测不到，没关系，重启进入Arch后，先把Windows的EFI分区挂载上（比如 sudo mount /dev/nvme1n1p1 /mnt），再 sudo grub-mkconfig -o /boot/grub/grub.cfg 一次就好。
 
 至此，基础的Arch Linux已经安装完成，退出并重启
 
@@ -337,9 +346,10 @@ Server = https://mirrors.bfsu.edu.cn/archlinuxcn/$arch
 清华：https://mirrors.tuna.tsinghua.edu.cn/archlinuxcn/$arch
 阿里云：https://mirrors.aliyun.com/archlinuxcn/$arch
 
-随后导入 GPG 密钥：保存后执行以下命令，安装 archlinuxcn-keyring 以信任仓库签名：
+随后导入 GPG 密钥：保存后执行以下命令。第一行是在本地信任 archlinuxcn 维护者的签名（不执行的话，新版 keyring 可能会因为签名不受信任而装不上），第二行安装 archlinuxcn-keyring 以信任仓库签名：
 
 ```bash
+sudo pacman-key --lsign-key "farseerfc@archlinux.org"
 sudo pacman -Sy archlinuxcn-keyring
 ```
 
@@ -349,18 +359,29 @@ sudo pacman -Sy archlinuxcn-keyring
 sudo pacman -S yay
 ```
 
+注意 yay 要用普通用户运行，不要在 root 下或者 sudo yay，它会自己在需要的时候问你要 sudo 密码。
+
 archlinuxcn 仓库也包含许多常用中文软件、字体和工具（如 google-chrome、visual-studio-code-bin、wps-office 等），直接 pacman -S 即可。
 
 还有还有，在安装桌面环境之前，建议先装好显卡驱动，否则重启后可能无法进入图形界面。
 确认显卡型号：执行 
 
 ```bash
-lspci -k | grep -A 2 -E "(VGA|3D)"。
+lspci -k | grep -A 2 -E "(VGA|3D)"
 ```
 
 
-如果是NVIDIA显卡，请根据卡型安装闭源驱动。较新卡（40系，50系等）推荐等装完桌面之后用比较模糊的屏幕去浏览器搜NVIDIA drivers，然后下载对应的驱动，用sudo运行，按照提示安装即可，随后重启即可使用驱动；较老卡（GTX或者更古早的）执行 yay -S nvidia-580xx-dkms ；再老的卡（Kepler 及以下）考虑 nvidia-470xx-dkms。
-装完 NVIDIA 驱动后，编辑 /etc/default/grub，在 GRUB_CMDLINE_LINUX_DEFAULT 里添加 nvidia-drm.modeset=1，然后重新生成配置 sudo grub-mkconfig -o /boot/grub/grub.cfg。
+如果是NVIDIA显卡，请根据卡型安装驱动。**不要**去NVIDIA官网下载 .run 安装包来装，它会绕过pacman，以后内核一更新就容易黑屏，Arch上直接用仓库里的包就好：
+
+较新的卡（GTX 16系、RTX 20/30/40/50系）用官方的开源内核模块版驱动：
+
+```bash
+sudo pacman -S nvidia-open nvidia-utils  # 如果你装的不是linux内核（比如linux-lts、linux-zen），把nvidia-open换成nvidia-open-dkms
+```
+
+较老的卡（GTX 900系、GTX 10系）新版驱动已经不支持了，用AUR里的旧版分支：yay -S nvidia-580xx-dkms ；再老的卡（GTX 600/700系，Kepler架构）考虑 nvidia-470xx-dkms。
+
+装完 NVIDIA 驱动后，编辑 /etc/default/grub，在 GRUB_CMDLINE_LINUX_DEFAULT 里添加 nvidia-drm.modeset=1（新版驱动默认已经开启，加上也没坏处），然后重新生成配置 sudo grub-mkconfig -o /boot/grub/grub.cfg，重启后生效。
 
 AMD / Intel 用户：通常使用开源驱动即可，无需额外手动安装。
 
@@ -404,7 +425,7 @@ AMD / Intel 用户：通常使用开源驱动即可，无需额外手动安装�
    ```
 其他桌面的我就不教了捏，自己找教程去吧
 
-这时候你可能会发现，你的终端和其他位置都不能显示中文，中文显示出来全是口口口，别慌，在桌面里按下Ctrl+Alt+T，会弹出命令行，我们在这里安装字体就好了
+这时候你可能会发现，你的终端和其他位置都不能显示中文，中文显示出来全是口口口，别慌，打开终端（KDE里可以按Ctrl+Alt+T打开Konsole，GNOME里在应用列表里找“终端”或“Console”），我们在这里安装字体就好了
 
 ```bash
 sudo pacman -S noto-fonts-cjk noto-fonts-emoji
@@ -435,10 +456,12 @@ GTK_IM_MODULE=fcitx
 QT_IM_MODULE=fcitx
 XMODIFIERS=@im=fcitx
 SDL_IM_MODULE=fcitx
-GLFW_IM_MODULE=fcitx
+GLFW_IM_MODULE=ibus
 ```
 
-保存退出即可。
+最后一行写 ibus 不是写错了，GLFW 只认 ibus 这个值，fcitx5 是兼容它的。保存退出即可。
+
+**如果你用的是 KDE Plasma（Wayland）**：前两行 GTK_IM_MODULE 和 QT_IM_MODULE 可以不写，写了反而可能出问题。改为在 系统设置 → 键盘 → 虚拟键盘 里选择 Fcitx 5 即可。
 
 3. 设置开机自启动
 
@@ -446,7 +469,7 @@ GLFW_IM_MODULE=fcitx
 
 ```bash
 mkdir -p ~/.config/autostart
-cp /etc/xdg/autostart/fcitx5.desktop ~/.config/autostart/
+cp /usr/share/applications/org.fcitx.Fcitx5.desktop ~/.config/autostart/
 ```
 
 完成上述步骤后，重启系统使环境变量生效。然后运行配置工具：

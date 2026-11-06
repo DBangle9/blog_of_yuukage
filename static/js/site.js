@@ -18,6 +18,18 @@
     });
   }
   systemDark.addEventListener('change', event => { if (!saved) applyTheme(event.matches ? 'dark' : 'light'); });
+  const header = document.querySelector('.site-header');
+  const onScroll = () => header?.classList.toggle('is-scrolled', scrollY > 8);
+  onScroll(); addEventListener('scroll', onScroll, { passive: true });
+  const reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver(entries => entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); }
+    }), { rootMargin: '0px 0px -8% 0px' });
+    reveals.forEach(el => io.observe(el));
+  } else reveals.forEach(el => el.classList.add('is-visible'));
+  const here = location.pathname;
+  document.querySelectorAll('.toc a').forEach(a => { if (a.getAttribute('href') === here) a.setAttribute('aria-current', 'page'); });
   if (navigator.clipboard) document.querySelectorAll('.prose pre').forEach(pre => {
     const code = pre.querySelector('code');
     if (!code) return;

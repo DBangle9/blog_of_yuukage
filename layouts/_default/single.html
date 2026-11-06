@@ -1,3 +1,40 @@
 {{ define "main" }}
-<div class="article-layout"><article class="article"><header class="article-header"><a class="quiet-link" href="{{ if eq .Section "creative" }}/creative/{{ else if eq .Section "posts" }}/posts/{{ else }}/{{ end }}">← {{ if eq .Section "creative" }}创作归档{{ else if eq .Section "posts" }}全部文章{{ else }}首页{{ end }}</a><div class="post-tags">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</div><h1>{{ .Title }}</h1><p class="article-description">{{ .Description }}</p>{{ if or (eq .Section "posts") (eq .Section "creative") }}<p class="article-meta">{{ .Date.Format "2006.01.02" }} · {{ .ReadingTime }} 分钟阅读{{ if eq .Section "creative" }} · 旧站创作归档{{ end }}</p>{{ end }}</header><div class="prose">{{ .Content }}</div>{{ with .GetTerms "tags" }}<div class="article-tags">{{ range . }}<a class="pill" href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div>{{ end }}{{ if eq .Section "posts" }}<footer class="article-bottom"><p>记录于 Yuukage · 夕影的博客</p><a href="/posts/index.xml">通过 RSS 订阅后续文章 ↗</a></footer><nav class="post-pagination" aria-label="相邻文章">{{ with .PrevInSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end }}{{ with .NextInSection }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}</nav>{{ end }}</article>{{ if gt (len .Fragments.Headings) 0 }}<aside class="toc"><p class="eyebrow">ON THIS PAGE</p><h2>文章目录</h2>{{ .TableOfContents }}</aside>{{ end }}</div>
+{{ $novel := .Params.novel }}
+{{ $chapters := slice }}
+{{ with .Params.series }}{{ $chapters = sort (where (where site.RegularPages "Section" "posts") "Params.series" .) "Params.chapter" }}{{ end }}
+<div class="article-layout{{ if $novel }} is-novel{{ end }}">
+<article class="article">
+  <header class="article-header">
+    <a class="back-link" href="{{ if eq .Section "creative" }}/creative/{{ else if eq .Section "posts" }}/posts/{{ else }}/{{ end }}">← {{ if eq .Section "creative" }}创作归档{{ else if eq .Section "posts" }}全部文章{{ else }}首页{{ end }}</a>
+    {{ if $novel }}
+      <p class="novel-series"><span class="dot"></span>{{ .Params.series }} <span class="novel-count">CHAPTER {{ printf "%02d" .Params.chapter }} / {{ printf "%02d" (len $chapters) }}</span></p>
+      <h1>{{ .Params.chapterTitle | default .Title }}</h1>
+    {{ else }}
+      <div class="post-tags">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</div>
+      <h1>{{ .Title }}</h1>
+    {{ end }}
+    {{ with .Description }}<p class="article-description">{{ . }}</p>{{ end }}
+    {{ if or (eq .Section "posts") (eq .Section "creative") }}<p class="article-meta"><span>{{ .Date.Format "2006.01.02" }}</span><span>{{ .ReadingTime }} 分钟阅读</span>{{ if eq .Section "creative" }}<span>旧站创作归档</span>{{ end }}{{ if $novel }}<span>莺绫世界观</span>{{ end }}</p>{{ end }}
+  </header>
+  <div class="prose">{{ .Content }}</div>
+  {{ with .GetTerms "tags" }}<div class="article-tags">{{ range . }}<a class="pill" href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div>{{ end }}
+  {{ if $novel }}
+    {{ $cur := .Params.chapter }}{{ $prev := "" }}{{ $next := "" }}
+    {{ range $chapters }}{{ if eq .Params.chapter (sub $cur 1) }}{{ $prev = . }}{{ end }}{{ if eq .Params.chapter (add $cur 1) }}{{ $next = . }}{{ end }}{{ end }}
+    <nav class="chapter-nav" aria-label="章节导航">
+      {{ with $prev }}<a class="chapter-link prev" href="{{ .RelPermalink }}"><small>← 上一章</small><span>{{ .Params.chapterTitle }}</span></a>{{ else }}<span class="chapter-link is-empty"><small>序</small><span>故事从这里开始</span></span>{{ end }}
+      {{ with $next }}<a class="chapter-link next" href="{{ .RelPermalink }}"><small>下一章 →</small><span>{{ .Params.chapterTitle }}</span></a>{{ else }}<span class="chapter-link next is-empty"><small>未完待续</small><span>下一章还在海上漂着……</span></span>{{ end }}
+    </nav>
+  {{ end }}
+  {{ if eq .Section "posts" }}
+  <footer class="article-bottom"><p>记录于 Yuukage · 夕影的博客</p><a href="/posts/index.xml">通过 RSS 订阅后续文章 ↗</a></footer>
+  {{ if not $novel }}<nav class="post-pagination" aria-label="相邻文章">{{ with .PrevInSection }}<a href="{{ .RelPermalink }}">← {{ .Title }}</a>{{ end }}{{ with .NextInSection }}<a href="{{ .RelPermalink }}">{{ .Title }} →</a>{{ end }}</nav>{{ end }}
+  {{ end }}
+</article>
+{{ if $novel }}
+<aside class="toc series-toc"><p class="eyebrow">SERIES</p><h2>{{ .Params.series }}</h2><ol>{{ $here := .RelPermalink }}{{ range $chapters }}<li><a href="{{ .RelPermalink }}" {{ if eq .RelPermalink $here }}aria-current="page"{{ end }}>{{ .Params.chapterTitle }}</a></li>{{ end }}</ol></aside>
+{{ else if gt (len .Fragments.Headings) 0 }}
+<aside class="toc"><p class="eyebrow">ON THIS PAGE</p><h2>文章目录</h2>{{ .TableOfContents }}</aside>
+{{ end }}
+</div>
 {{ end }}

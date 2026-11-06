@@ -52,7 +52,7 @@ tags: ["添加tag"]
 - `content/about/index.md`：个人介绍；可补充专业、方向与公开联系方式。
 - `content/projects/index.md`：真实项目、结果和仓库链接。
 - `content/posts/`：博客 Markdown。
-- `content/creative/`：旧站五篇创作，不进入博客首页或博客搜索。（可以在“关于”里找到“旧站”，从那里进去）
+- `content/creative/`：旧站三篇短篇创作，不进入博客首页或博客搜索。连载《静かな海に、星が降る。》已移到 `content/posts/shizukana-umi-*.md`，旧的 p1/p2 地址会自动跳转到新章节。（可以在“关于”里找到“旧站”，从那里进去）
 - `content/oc/`、`content/gallery/`：角色档案和画廊。
 
 首页介绍在 `layouts/index.html` 中。现阶段还是一个半成品捏

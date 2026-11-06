@@ -1,8 +1,61 @@
 {{ define "main" }}
-<section class="hero"><div class="hero-copy"><p class="eyebrow"><span class="dot"></span> PERSONAL BLOG / EST. 2026</p><h1>欢迎来到，<br>夕影的<span class="accent">blog主站~</span></h1><p class="hero-lead">这里是一间咖啡厅，书架上摆着我写的书，<br class="desktop-break">桌子上，仍然留着奈奈酱咖啡馆的电波饮，即使我已经没法再回去</p><div class="hero-actions"><a class="button" href="/posts/">开始阅读 <span>↗</span></a><a class="quiet-link" href="/about/">了解我 <span>→</span></a></div><div class="hero-topics"><span>硬件相关</span><span>软件相关</span><span>经验&杂谈</span></div></div>
-<div class="hero-art" aria-hidden="true"><div class="art-label">FIELD NOTES — 001</div><svg viewBox="0 0 380 310" fill="none"><path d="M18 232 190 139 361 232 190 323Z" fill="var(--art-floor)"/><path d="m190 139 171 93M190 139 0 240M190 139v170" stroke="var(--line)"/><path d="m70 170 152-80 104 54-152 82Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.5"/><path d="m70 170 104 56v18L70 188Z" fill="var(--art-spine)" stroke="var(--ink)" stroke-width="1.5"/><path d="m174 226 152-82v18l-152 82Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.5"/><path d="m88 159 150-80 100 53-150 82Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.5"/><path d="m88 159 100 55v12L88 171Zm100 55 150-82v12l-150 82Z" fill="var(--art-spine)" stroke="var(--ink)" stroke-width="1.5"/><path d="m114 121 151-80 81 43-151 82Z" fill="var(--accent)" stroke="var(--ink)" stroke-width="1.5"/><path d="m114 121 81 45v13l-81-45Z" fill="var(--accent)" stroke="var(--ink)" stroke-width="1.5"/><path d="m195 166 151-82v13l-151 82Z" fill="var(--paper)" stroke="var(--ink)" stroke-width="1.5"/><path d="m128 128 151-80M223 84l33-17m-45 23 54-29" stroke="var(--paper)" stroke-width="2"/><path d="m54 76 25-13 25 13-25 13Zm25-13V35M54 76v16l25 14 25-14V76M79 89v17" stroke="var(--ink)"/><circle cx="79" cy="29" r="5" fill="var(--accent)"/><path d="M306 220v-37m-5 5 5-5 5 5M39 206h25m-5-5 5 5-5 5" stroke="var(--ink)"/></svg><div class="art-caption"><span>THINK. BUILD. DOCUMENT.</span><span>↗</span></div></div></section>
+{{ $posts := where site.RegularPages "Section" "posts" }}
+{{ $creative := where site.RegularPages "Section" "creative" }}
+<section class="hero">
+  <div class="hero-copy reveal">
+    <p class="eyebrow"><span class="dot"></span> PERSONAL BLOG / EST. 2026</p>
+    <h1>欢迎来到，<br>夕影的<span class="accent">blog主站~</span></h1>
+    <p class="hero-lead">这里是一间咖啡厅，书架上摆着我写的书，<br class="desktop-break">桌子上，仍然留着奈奈酱咖啡馆的电波饮，即使我已经没法再回去</p>
+    <div class="hero-actions"><a class="button" href="/posts/">开始阅读 <span>↗</span></a><a class="button ghost" href="/about/">了解我 <span>→</span></a></div>
+    <div class="hero-topics"><span>硬件相关</span><span>软件相关</span><span>经验&amp;杂谈</span></div>
+  </div>
+  <div class="hero-art reveal" aria-hidden="true">
+    <div class="orbit orbit-1"><i></i></div>
+    <div class="orbit orbit-2"><i></i></div>
+    <div class="arch"><img src="/images/portrait.webp" alt="" width="1400" height="1400" fetchpriority="high"></div>
+    <img class="hero-sticker" src="/images/sticker-peek.webp" alt="" width="120" height="120" loading="lazy">
+    <div class="hero-badge"><span class="dot"></span>FIELD NOTES — 001</div>
+    <div class="hero-caption">THINK. BUILD. DOCUMENT.</div>
+  </div>
+</section>
+
+<section class="stats reveal" aria-label="站点概况">
+  <div><strong>{{ len $posts }}</strong><span>篇文章</span></div>
+  <div><strong>{{ len $creative }}</strong><span>篇旧站创作</span></div>
+  <div><strong>{{ len site.Taxonomies.tags }}</strong><span>个标签</span></div>
+  <div><strong>∞</strong><span>还在继续折腾</span></div>
+</section>
+
 <div class="section-divider"><span>算得上是一个，赛博日记本？</span><span>YUUKAGE.COM</span></div>
-<div class="home-grid"><section><header class="section-heading"><div><p class="eyebrow">THE JOURNAL</p><h2>最近的文章<span class="count">{{ len (where site.RegularPages "Section" "posts") }}</span></h2></div><a class="quiet-link" href="/posts/">全部文章 →</a></header>{{ range first 4 ((where site.RegularPages "Section" "posts").ByDate.Reverse) }}{{ partial "post-row.html" . }}{{ else }}<p class="empty">第一篇文章正在准备中。</p>{{ end }}</section>
-<aside class="home-aside"><div class="about-card"><p class="eyebrow">BEHIND THE NOTES</p><div class="avatar">夕<span>↗</span></div><h3>夕影 <small>/ Yuukage</small></h3><p>喜欢折腾电子产品，也比较电波，会经营自己的oc。</p><a class="quiet-link" href="/about/">关于这个博客 →</a></div><div class="side-note"><span class="dot"></span><p>从之前的电波小站开始，<br>这里慢慢变成了这样子 呢。</p></div></aside></div>
-<section class="project-feature"><div><p class="eyebrow">BUILD IN PUBLIC</p><h2>记录的同时，也动手做。</h2><p>我想把这里作为持续维护的项目，就像店主每天打扫咖啡馆那样。</p></div><a class="quiet-link" href="/projects/">查看项目 →</a></section>
+
+<div class="home-grid">
+  <section class="reveal">
+    <header class="section-heading"><div><p class="eyebrow">THE JOURNAL</p><h2>最近的文章<span class="count">{{ len $posts }}</span></h2></div><a class="quiet-link" href="/posts/">全部文章 →</a></header>
+    <div class="card-list">{{ range first 4 $posts.ByDate.Reverse }}{{ partial "post-row.html" . }}{{ else }}<p class="empty">第一篇文章正在准备中。</p>{{ end }}</div>
+  </section>
+  <aside class="home-aside reveal">
+    <div class="about-card glass">
+      <p class="eyebrow">BEHIND THE NOTES</p>
+      <div class="avatar"><img src="/images/hero.webp" alt="夕影的头像" width="160" height="160" loading="lazy"><span>↗</span></div>
+      <h3>夕影 <small>/ Yuukage</small></h3>
+      <p>喜欢折腾电子产品，也比较电波，会经营自己的oc。</p>
+      <a class="quiet-link" href="/about/">关于这个博客 →</a>
+    </div>
+    <div class="side-note"><span class="dot"></span><p>从之前的电波小站开始，<br>这里慢慢变成了这样子 呢。</p></div>
+  </aside>
+</div>
+
+{{ $novel := sort (where $posts "Params.novel" true) "Params.chapter" }}
+<section class="legacy-teaser reveal">
+  <img src="/images/legacy-background.jpg" alt="" loading="lazy" width="3000" height="2000">
+  <div class="legacy-teaser-copy">
+    <p class="eyebrow">SERIAL · 莺绫世界观连载</p>
+    <h2 lang="ja">静かな海に、星が降る。</h2>
+    <p>卡尔塔南方的西风带尽头，有一座二十年无人抵达的听潮塔。莺绫驾着月亮号出发了，收音机里，一首很旧的歌还在播放。</p>
+    {{ with $novel }}<ol class="teaser-chapters">{{ range . }}<li><a href="{{ .RelPermalink }}"><span>{{ printf "%02d" .Params.chapter }}</span>{{ .Params.chapterTitle }}</a></li>{{ end }}</ol>{{ end }}
+    <div class="legacy-teaser-links">{{ with index $novel 0 }}<a class="button light" href="{{ .RelPermalink }}">从第一章读起 ↗</a>{{ end }}<a class="quiet-link" href="/legacy/">走进旧站 →</a></div>
+  </div>
+</section>
+
+<section class="project-feature glass reveal"><div><p class="eyebrow">BUILD IN PUBLIC</p><h2>记录的同时，也动手做。</h2><p>我想把这里作为持续维护的项目，就像店主每天打扫咖啡馆那样。</p></div><a class="button ghost" href="/projects/">查看项目 →</a></section>
 {{ end }}

@@ -65,6 +65,10 @@ tags: ["添加tag"]
 
 Cloudflare 部署见 [DEPLOY.md](DEPLOY.md)。旧服务器的 Caddy、systemd 配置未引入新版。
 
+## 开发与致谢
+
+本项目由[夕影（DBangle9）](https://github.com/DBangle9)发起并维护，初版由 **OpenAI Codex** 协助搭建，后续由 **Claude** 协助改版和完善。
+
 ## 素材
 
 旧站插画，背景和和表情是我的个人人设图，来源于米画师约稿。未经许可请勿用于训练、转载或商业用途。

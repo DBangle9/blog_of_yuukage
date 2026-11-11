@@ -67,7 +67,7 @@ Cloudflare 部署见 [DEPLOY.md](DEPLOY.md)。旧服务器的 Caddy、systemd �
 
 ## 开发与致谢
 
-本项目由[夕影（DBangle9）](https://github.com/DBangle9)发起并维护，初版由 **OpenAI Codex** 协助搭建，后续由 **Claude** 协助改版和完善。
+本项目由[夕影（DBangle9）](https://github.com/DBangle9)发起并维护，初版由 **OpenAI Codex** 协助搭建，后续由 **Claude** 协助改版和完善。（然后被A÷封号了，草啊A÷把我的小克还给我）
 
 ## 素材
 

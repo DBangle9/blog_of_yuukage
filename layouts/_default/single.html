@@ -7,14 +7,14 @@
   <header class="article-header">
     <a class="back-link" href="{{ if eq .Section "creative" }}/creative/{{ else if eq .Section "posts" }}/posts/{{ else }}/{{ end }}">← {{ if eq .Section "creative" }}创作归档{{ else if eq .Section "posts" }}全部文章{{ else }}首页{{ end }}</a>
     {{ if $novel }}
-      <p class="novel-series"><span class="dot"></span>{{ .Params.series }} <span class="novel-count">CHAPTER {{ printf "%02d" .Params.chapter }} / {{ printf "%02d" (len $chapters) }}</span></p>
+      <p class="novel-series"><span class="dot"></span>{{ .Params.series }} <span class="novel-count">CHAPTER {{ printf "%02d" .Params.chapter }} / {{ printf "%02d" (.Params.totalChapters | default (len $chapters)) }}</span></p>
       <h1>{{ .Params.chapterTitle | default .Title }}</h1>
     {{ else }}
       <div class="post-tags">{{ range .GetTerms "categories" }}<a href="{{ .RelPermalink }}">{{ .LinkTitle }}</a>{{ end }}</div>
       <h1>{{ .Title }}</h1>
     {{ end }}
     {{ with .Description }}<p class="article-description">{{ . }}</p>{{ end }}
-    {{ if or (eq .Section "posts") (eq .Section "creative") }}<p class="article-meta"><span>{{ .Date.Format "2006.01.02" }}</span><span>{{ .ReadingTime }} 分钟阅读</span>{{ if eq .Section "creative" }}<span>旧站创作归档</span>{{ end }}{{ if $novel }}<span>莺绫世界观</span>{{ end }}</p>{{ end }}
+    {{ if or (eq .Section "posts") (eq .Section "creative") }}<p class="article-meta"><span>{{ .Date.Format "2006.01.02" }}</span><span>{{ .ReadingTime }} 分钟阅读</span>{{ if eq .Section "creative" }}<span>旧站创作归档</span>{{ end }}{{ if $novel }}<span>{{ .Params.world | default "莺绫世界观" }}</span>{{ end }}</p>{{ end }}
   </header>
   <div class="prose">{{ .Content }}</div>
   {{ with .GetTerms "tags" }}<div class="article-tags">{{ range . }}<a class="pill" href="{{ .RelPermalink }}"># {{ .LinkTitle }}</a>{{ end }}</div>{{ end }}
@@ -23,7 +23,7 @@
     {{ range $chapters }}{{ if eq .Params.chapter (sub $cur 1) }}{{ $prev = . }}{{ end }}{{ if eq .Params.chapter (add $cur 1) }}{{ $next = . }}{{ end }}{{ end }}
     <nav class="chapter-nav" aria-label="章节导航">
       {{ with $prev }}<a class="chapter-link prev" href="{{ .RelPermalink }}"><small>← 上一章</small><span>{{ .Params.chapterTitle }}</span></a>{{ else }}<span class="chapter-link is-empty"><small>序</small><span>故事从这里开始</span></span>{{ end }}
-      {{ with $next }}<a class="chapter-link next" href="{{ .RelPermalink }}"><small>下一章 →</small><span>{{ .Params.chapterTitle }}</span></a>{{ else }}<span class="chapter-link next is-empty"><small>未完待续</small><span>下一章还在海上漂着……</span></span>{{ end }}
+      {{ with $next }}<a class="chapter-link next" href="{{ .RelPermalink }}"><small>下一章 →</small><span>{{ .Params.chapterTitle }}</span></a>{{ else }}{{ if .Params.completed }}<span class="chapter-link next is-empty"><small>全书完</small><span>故事在这里落幕啦</span></span>{{ else }}<span class="chapter-link next is-empty"><small>未完待续</small><span>下一章还在海上漂着……</span></span>{{ end }}{{ end }}
     </nav>
   {{ end }}
   {{ if eq .Section "posts" }}

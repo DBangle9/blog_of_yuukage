@@ -45,7 +45,7 @@
   </aside>
 </div>
 
-{{ $novel := sort (where $posts "Params.novel" true) "Params.chapter" }}
+{{ $novel := sort (where (where $posts "Params.novel" true) "Params.series" "静かな海に、星が降る") "Params.chapter" }}
 <section class="legacy-teaser reveal">
   <img src="/images/legacy-background.jpg" alt="" loading="lazy" width="3000" height="2000">
   <div class="legacy-teaser-copy">

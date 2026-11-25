@@ -246,6 +246,8 @@ img{max-width:100%}
 .is-novel .article-meta{justify-content:center}
 .is-novel .prose{font-family:var(--serif);font-size:17.5px;line-height:2.15;color:var(--ink)}
 .is-novel .prose p{text-indent:2em;margin-bottom:.9em}
+.is-novel .prose blockquote p{text-indent:0;margin-bottom:.45em}
+.is-novel .prose blockquote p:last-child{margin-bottom:0}
 .chapter-nav{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:50px 0 10px}
 .chapter-link{display:flex;flex-direction:column;gap:6px;padding:20px 22px;border-radius:var(--radius);border:1px solid var(--line);background:var(--glass);transition:transform .25s,border-color .25s}
 .chapter-link small{font:600 11px var(--mono);letter-spacing:.12em;color:var(--muted)}
